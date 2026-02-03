@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Image view counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            text-align: center;
+            padding: 40px;
+        }
+        img {
+            max-width: 90%;
+            height: auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .counter {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="Slika">
+
+    <div class="counter">
+        Pregleda: <span id="views">...</span>
+    </div>
+
+    <script>
+        // Zamijeni namespace s nečim jedinstvenim (npr. tvoje ime ili projekt)
+        const namespace = "filip-image-counter";
+        const key = "image1";
+
+        fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("views").innerText = data.value;
+            })
+            .catch(() => {
+                document.getElementById("views").innerText = "Greška";
+            });
+    </script>
+
+</body>
+</html>
