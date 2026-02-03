@@ -5,33 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pregled Slike</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background-color: #f4f4f4; padding: 20px; }
-        img { max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .counter { margin-top: 20px; font-size: 1.2em; color: #333; font-weight: bold; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            background-color: #f0f2f5; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        .container {
+            background-color: white;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 10px; 
+            margin-bottom: 20px;
+        }
+        .counter-box { 
+            margin-top: 20px; 
+            padding: 15px;
+            border-top: 1px solid #eee;
+            color: #555;
+        }
+        #count-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2ecc71;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
-    <h2>Vaša Slika</h2>
-    
-    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="Prikaz slike">
+    <div class="container">
+        <h2>Skenirani sadržaj</h2>
+        
+        <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="Prikaz slike">
 
-    <div class="counter">
-        Broj ljudi koji su pogledali ovu sliku: 
-        <span id="visits">...</span>
+        <div class="counter-box">
+            Ukupno pregleda:
+            <span id="count-value">Učitavam...</span>
+        </div>
     </div>
 
     <script>
-        // Funkcija za dohvaćanje i povećanje broja posjeta
-        // Zamijeni 'moj-jedinstveni-kljuc' nečim unikatnim (npr. 'moja-slika-123')
-        fetch('https://api.countapi.xyz/hit/moj-projekt-qr/posjeti')
-            .then(res => res.json())
-            .then(res => {
-                document.getElementById('visits').innerText = res.value;
-            })
-            .catch(err => {
-                document.getElementById('visits').innerText = "1"; // Fallback ako API ne odgovori
-            });
+        // Ovaj servis automatski broji posjete za tvoju specifičnu URL adresu
+        // Zamijeni 'moj-jedinstveni-qr-kod-2024' s bilo kojom riječi da resetiraš brojač
+        const projectID = 'moj-unikatni-qr-projekt'; 
+
+        fetch(`https://api.countapi.xyz/hit/qr-counter-hr/${projectID}`)
+        .then(res => res.json())
+        .then(res => {
+            document.getElementById('count-value').innerText = res.value;
+        })
+        .catch(() => {
+            // Ako countapi ne radi, koristimo alternativni vizualni brojač
+            const countValue = document.getElementById('count-value');
+            countValue.innerHTML = `<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=${window.location.href}&count_bg=%232ECC71&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Pregleda&edge_flat=false" alt="Brojač">`;
+        });
     </script>
 
 </body>
