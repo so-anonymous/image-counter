@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Pregled slike</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            text-align: center;
+            padding: 40px;
+        }
+        img {
+            max-width: 90%;
+            height: auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .counter {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg">
+
+<div class="counter">
+    Pregleda: <span id="views">...</span>
+</div>
+
+<script>
+    const namespace = "majmun_counter_haha";
+    const key = "image";
+
+    fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0`)
+        .then(() => fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`))
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("views").innerText = data.value;
+        })
+        .catch(() => {
+            document.getElementById("views").innerText = "N/A";
+        });
+</script>
+
+</body>
+</html>
