@@ -3,83 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Evidencija</title>
+    <title>QR Evidencija Pregleda</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
-        .card { background: white; max-width: 500px; margin: auto; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        img { width: 100%; border-radius: 10px; }
-        #brojač-okvir { margin-top: 20px; font-size: 1.5em; font-weight: bold; color: #007bff; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #121212; color: white; padding: 20px; }
+        .container { background: #1e1e1e; max-width: 500px; margin: auto; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        img.glavna-slika { width: 100%; border-radius: 15px; border: 1px solid #333; }
+        .stats { margin-top: 25px; padding: 15px; background: #252525; border-radius: 12px; }
+        #broj { font-size: 2.5em; font-weight: bold; color: #00cf8d; display: block; margin-top: 5px; }
+        .label { color: #888; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg">
-    <div id="brojač-okvir">Pregleda: <span id="broj">...</span></div>
-</div>
+    <div class="container">
+        <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" class="glavna-slika" alt="Prikaz">
+        
+        <div class="stats">
+            <span class="label">Ukupno pregleda</span>
+            <span id="broj">...</span>
+        </div>
+    </div>
 
-<script>
-    // Ovdje unesi svoje podatke iz Supabase postavki (Settings -> API)
-    const SUPABASE_URL = 'TVOJA_SUPABASE_URL_ADRESA';
-    const SUPABASE_KEY = 'TVOJ_ANON_KEY';
-    const supabase = lib.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <script>
+        const SUPABASE_URL = 'https://ycejcncaoscfymvixhbu.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZWpjbmNhb3NjZnltdml4aGJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMzIzMTksImV4cCI6MjA4NTcwODMxOX0.oTW-AokAyXxt_RJjSDSyQjPrqw-BpXDjWponV1fYaSs';
+        
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    async function osvjeziBrojac() {
-        // 1. Dohvati trenutni broj
-        let { data } = await supabase.from('brojac_posjeta').select('broj_pregleda').eq('id', 'glavna_slika').single();
-        let noviBroj = data.broj_pregleda + 1;
+        async function updateCounter() {
+            try {
+                // 1. Dohvaćanje trenutnog stanja
+                let { data, error } = await _supabase
+                    .from('brojac_pregleda')
+                    .select('pregledi')
+                    .eq('id', 'slika1')
+                    .single();
 
-        // 2. Spremi novi broj u bazu
-        await supabase.from('brojac_posjeta').update({ broj_pregleda: noviBroj }).eq('id', 'glavna_slika');
+                if (error) throw error;
 
-        // 3. Pokaži ga na ekranu
-        document.getElementById('broj').innerText = noviBroj;
-    }
+                const noviBroj = data.pregledi + 1;
 
-    osvjeziBrojac();
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="hr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Evidencija</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
-        .card { background: white; max-width: 500px; margin: auto; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        img { width: 100%; border-radius: 10px; }
-        #brojač-okvir { margin-top: 20px; font-size: 1.5em; font-weight: bold; color: #007bff; }
-    </style>
-</head>
-<body>
+                // 2. Slanje novog broja u bazu
+                const { error: updateError } = await _supabase
+                    .from('brojac_pregleda')
+                    .update({ pregledi: noviBroj })
+                    .eq('id', 'slika1');
 
-<div class="card">
-    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg">
-    <div id="brojač-okvir">Pregleda: <span id="broj">...</span></div>
-</div>
+                if (updateError) throw updateError;
 
-<script>
-    // Ovdje unesi svoje podatke iz Supabase postavki (Settings -> API)
-    const SUPABASE_URL = 'TVOJA_SUPABASE_URL_ADRESA';
-    const SUPABASE_KEY = 'TVOJ_ANON_KEY';
-    const supabase = lib.createClient(SUPABASE_URL, SUPABASE_KEY);
+                // 3. Prikaz na ekranu
+                document.getElementById('broj').innerText = noviBroj;
 
-    async function osvjeziBrojac() {
-        // 1. Dohvati trenutni broj
-        let { data } = await supabase.from('brojac_posjeta').select('broj_pregleda').eq('id', 'glavna_slika').single();
-        let noviBroj = data.broj_pregleda + 1;
+            } catch (err) {
+                console.error('Greška:', err);
+                document.getElementById('broj').innerText = 'Greška';
+            }
+        }
 
-        // 2. Spremi novi broj u bazu
-        await supabase.from('brojac_posjeta').update({ broj_pregleda: noviBroj }).eq('id', 'glavna_slika');
-
-        // 3. Pokaži ga na ekranu
-        document.getElementById('broj').innerText = noviBroj;
-    }
-
-    osvjeziBrojac();
-</script>
+        updateCounter();
+    </script>
 </body>
 </html>
