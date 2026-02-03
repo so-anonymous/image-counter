@@ -2,7 +2,7 @@
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
-    <title>Image view counter</title>
+    <title>Pregled slike</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,26 +25,26 @@
 </head>
 <body>
 
-    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="Slika">
+<img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg">
 
-    <div class="counter">
-        Pregleda: <span id="views">...</span>
-    </div>
+<div class="counter">
+    Pregleda: <span id="views">...</span>
+</div>
 
-    <script>
-        // Zamijeni namespace s nečim jedinstvenim (npr. tvoje ime ili projekt)
-        const namespace = "filip-image-counter";
-        const key = "image1";
+<script>
+    const namespace = "majmun_counter_haha";
+    const key = "image";
 
-        fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("views").innerText = data.value;
-            })
-            .catch(() => {
-                document.getElementById("views").innerText = "Greška";
-            });
-    </script>
+    fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0`)
+        .then(() => fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`))
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("views").innerText = data.value;
+        })
+        .catch(() => {
+            document.getElementById("views").innerText = "N/A";
+        });
+</script>
 
 </body>
 </html>
