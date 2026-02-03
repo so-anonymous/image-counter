@@ -3,65 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Evidencija Pregleda</title>
+    <title>Pregled Slike</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #121212; color: white; padding: 20px; }
-        .container { background: #1e1e1e; max-width: 500px; margin: auto; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        img.glavna-slika { width: 100%; border-radius: 15px; border: 1px solid #333; }
-        .stats { margin-top: 25px; padding: 15px; background: #252525; border-radius: 12px; }
-        #broj { font-size: 2.5em; font-weight: bold; color: #00cf8d; display: block; margin-top: 5px; }
-        .label { color: #888; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; }
+        body { font-family: sans-serif; text-align: center; background: #f4f4f4; padding: 20px; color: #333; }
+        .card { background: white; max-width: 500px; margin: auto; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        img { width: 100%; border-radius: 10px; }
+        .stats { margin-top: 20px; padding: 10px; border-top: 1px solid #eee; }
+        #broj { font-size: 2em; font-weight: bold; color: #007bff; display: block; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" class="glavna-slika" alt="Prikaz">
-        
-        <div class="stats">
-            <span class="label">Ukupno pregleda</span>
-            <span id="broj">...</span>
-        </div>
+<div class="card">
+    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="Slika">
+    
+    <div class="stats">
+        <span style="font-size: 0.9em; color: #666;">UKUPNO PREGLEDA:</span>
+        <span id="broj">Učitavam...</span>
     </div>
+</div>
 
-    <script>
-        const SUPABASE_URL = 'https://ycejcncaoscfymvixhbu.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZWpjbmNhb3NjZnltdml4aGJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMzIzMTksImV4cCI6MjA4NTcwODMxOX0.oTW-AokAyXxt_RJjSDSyQjPrqw-BpXDjWponV1fYaSs';
-        
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<script>
+    const SUPABASE_URL = 'https://ycejcncaoscfymvixhbu.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZWpjbmNhb3NjZnltdml4aGJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMzIzMTksImV4cCI6MjA4NTcwODMxOX0.oTW-AokAyXxt_RJjSDSyQjPrqw-BpXDjWponV1fYaSs';
 
-        async function updateCounter() {
-            try {
-                // 1. Dohvaćanje trenutnog stanja
-                let { data, error } = await _supabase
-                    .from('brojac_pregleda')
-                    .select('pregledi')
-                    .eq('id', 'slika1')
-                    .single();
+    // Inicijalizacija
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-                if (error) throw error;
+    async function updateCounter() {
+        try {
+            // 1. Dohvati trenutni broj
+            let { data, error } = await _supabase
+                .from('brojac_pregleda')
+                .select('pregledi')
+                .eq('id', 'slika1')
+                .single();
 
-                const noviBroj = data.pregledi + 1;
-
-                // 2. Slanje novog broja u bazu
-                const { error: updateError } = await _supabase
-                    .from('brojac_pregleda')
-                    .update({ pregledi: noviBroj })
-                    .eq('id', 'slika1');
-
-                if (updateError) throw updateError;
-
-                // 3. Prikaz na ekranu
-                document.getElementById('broj').innerText = noviBroj;
-
-            } catch (err) {
-                console.error('Greška:', err);
-                document.getElementById('broj').innerText = 'Greška';
+            if (error) {
+                console.error("Dohvaćanje nije uspjelo:", error);
+                document.getElementById('broj').innerText = "N/A";
+                return;
             }
-        }
 
-        updateCounter();
-    </script>
+            const noviBroj = data.pregledi + 1;
+
+            // 2. Spremi novi broj
+            const { error: updateError } = await _supabase
+                .from('brojac_pregleda')
+                .update({ pregledi: noviBroj })
+                .eq('id', 'slika1');
+
+            if (updateError) throw updateError;
+
+            // 3. Prikaži ga
+            document.getElementById('broj').innerText = noviBroj;
+
+        } catch (err) {
+            console.error("Sustavna greška:", err);
+            document.getElementById('broj').innerText = "Greška";
+        }
+    }
+
+    updateCounter();
+</script>
+
 </body>
 </html>
