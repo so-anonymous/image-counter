@@ -3,55 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Brojač</title>
+    <title>QR Evidencija</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            text-align: center; 
-            background-color: #1a1a1a; /* Tamna tema da slika dođe do izražaja */
-            color: white;
-            margin: 0; 
-            padding: 20px; 
-        }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background: #2d2d2d;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        img.glavna-slika { 
-            width: 100%; 
-            border-radius: 15px; 
-            margin-bottom: 25px;
-            border: 2px solid #444;
-        }
-        .counter-label {
-            font-size: 0.9em;
-            color: #aaa;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-        .counter-img {
-            display: inline-block;
-            background: #333;
-            padding: 10px;
-            border-radius: 10px;
-        }
+        body { font-family: sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
+        .card { background: white; max-width: 500px; margin: auto; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        img { width: 100%; border-radius: 10px; }
+        #brojač-okvir { margin-top: 20px; font-size: 1.5em; font-weight: bold; color: #007bff; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="Prikaz" class="glavna-slika">
+<div class="card">
+    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg">
+    <div id="brojač-okvir">Pregleda: <span id="broj">...</span></div>
+</div>
 
-        <div class="counter-label">UKUPNO PREGLEDA PREKO QR KODA:</div>
-        
-        <div class="counter-img">
-            <img src="https://counter.admantium.com/api/counter?id=moj-unikatni-qr-2026&color=green&style=flat-square" alt="Brojač">
-        </div>
-    </div>
+<script>
+    // Ovdje unesi svoje podatke iz Supabase postavki (Settings -> API)
+    const SUPABASE_URL = 'TVOJA_SUPABASE_URL_ADRESA';
+    const SUPABASE_KEY = 'TVOJ_ANON_KEY';
+    const supabase = lib.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    async function osvjeziBrojac() {
+        // 1. Dohvati trenutni broj
+        let { data } = await supabase.from('brojac_posjeta').select('broj_pregleda').eq('id', 'glavna_slika').single();
+        let noviBroj = data.broj_pregleda + 1;
+
+        // 2. Spremi novi broj u bazu
+        await supabase.from('brojac_posjeta').update({ broj_pregleda: noviBroj }).eq('id', 'glavna_slika');
+
+        // 3. Pokaži ga na ekranu
+        document.getElementById('broj').innerText = noviBroj;
+    }
+
+    osvjeziBrojac();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Evidencija</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
+        .card { background: white; max-width: 500px; margin: auto; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        img { width: 100%; border-radius: 10px; }
+        #brojač-okvir { margin-top: 20px; font-size: 1.5em; font-weight: bold; color: #007bff; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg">
+    <div id="brojač-okvir">Pregleda: <span id="broj">...</span></div>
+</div>
+
+<script>
+    // Ovdje unesi svoje podatke iz Supabase postavki (Settings -> API)
+    const SUPABASE_URL = 'TVOJA_SUPABASE_URL_ADRESA';
+    const SUPABASE_KEY = 'TVOJ_ANON_KEY';
+    const supabase = lib.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function osvjeziBrojac() {
+        // 1. Dohvati trenutni broj
+        let { data } = await supabase.from('brojac_posjeta').select('broj_pregleda').eq('id', 'glavna_slika').single();
+        let noviBroj = data.broj_pregleda + 1;
+
+        // 2. Spremi novi broj u bazu
+        await supabase.from('brojac_posjeta').update({ broj_pregleda: noviBroj }).eq('id', 'glavna_slika');
+
+        // 3. Pokaži ga na ekranu
+        document.getElementById('broj').innerText = noviBroj;
+    }
+
+    osvjeziBrojac();
+</script>
 </body>
 </html>
