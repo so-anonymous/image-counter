@@ -2,49 +2,37 @@
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
-    <title>Pregled slike</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregled Slike</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            text-align: center;
-            padding: 40px;
-        }
-        img {
-            max-width: 90%;
-            height: auto;
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-            border-radius: 8px;
-        }
-        .counter {
-            margin-top: 20px;
-            font-size: 22px;
-            font-weight: bold;
-        }
+        body { font-family: sans-serif; text-align: center; background-color: #f4f4f4; padding: 20px; }
+        img { max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .counter { margin-top: 20px; font-size: 1.2em; color: #333; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg">
+    <h2>Vaša Slika</h2>
+    
+    <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="Prikaz slike">
 
-<div class="counter">
-    Pregleda: <span id="views">...</span>
-</div>
+    <div class="counter">
+        Broj ljudi koji su pogledali ovu sliku: 
+        <span id="visits">...</span>
+    </div>
 
-<script>
-    const namespace = "majmun_counter_haha";
-    const key = "image";
-
-    fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0`)
-        .then(() => fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`))
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("views").innerText = data.value;
-        })
-        .catch(() => {
-            document.getElementById("views").innerText = "N/A";
-        });
-</script>
+    <script>
+        // Funkcija za dohvaćanje i povećanje broja posjeta
+        // Zamijeni 'moj-jedinstveni-kljuc' nečim unikatnim (npr. 'moja-slika-123')
+        fetch('https://api.countapi.xyz/hit/moj-projekt-qr/posjeti')
+            .then(res => res.json())
+            .then(res => {
+                document.getElementById('visits').innerText = res.value;
+            })
+            .catch(err => {
+                document.getElementById('visits').innerText = "1"; // Fallback ako API ne odgovori
+            });
+    </script>
 
 </body>
 </html>
