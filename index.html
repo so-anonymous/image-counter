@@ -3,31 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Evidencija</title>
+    <title>QR Brojač</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background-color: #f8f9fa; padding: 20px; }
-        .card { 
-            background: white; 
-            max-width: 450px; 
-            margin: auto; 
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            text-align: center; 
+            background-color: #1a1a1a; /* Tamna tema da slika dođe do izražaja */
+            color: white;
+            margin: 0; 
             padding: 20px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
         }
-        img.main-pic { width: 100%; border-radius: 15px; margin-bottom: 20px; }
-        .counter-label { font-size: 14px; color: #777; margin-bottom: 10px; text-transform: uppercase; }
-        .hits-badge { margin-top: 10px; }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        img.glavna-slika { 
+            width: 100%; 
+            border-radius: 15px; 
+            margin-bottom: 25px;
+            border: 2px solid #444;
+        }
+        .counter-label {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .counter-img {
+            display: inline-block;
+            background: #333;
+            padding: 10px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" class="main-pic" alt="Slika">
+    <div class="container">
+        <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="Prikaz" class="glavna-slika">
 
-        <div class="counter-label">Ukupno posjeta putem QR koda:</div>
+        <div class="counter-label">UKUPNO PREGLEDA PREKO QR KODA:</div>
         
-        <div class="hits-badge">
-            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fmoj-jedinstveni-brojac-2026-v1&count_bg=%23FF5733&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=PREGLEDA&edge_flat=false" alt="Brojač">
+        <div class="counter-img">
+            <img src="https://counter.admantium.com/api/counter?id=moj-unikatni-qr-2026&color=green&style=flat-square" alt="Brojač">
         </div>
     </div>
 
