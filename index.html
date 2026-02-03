@@ -3,59 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Evidencija</title>
+    <title>QR Brojač Posjeta</title>
     <style>
         body { 
-            font-family: 'Segoe UI', sans-serif; 
+            font-family: Arial, sans-serif; 
             text-align: center; 
-            background-color: #f0f2f5; 
+            background-color: #f4f4f4; 
             margin: 0; 
             padding: 20px; 
         }
-        .card {
+        .container {
             background: white;
             max-width: 500px;
-            margin: 20px auto;
+            margin: auto;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        img.main-img { 
+        img.glavna-slika { 
             width: 100%; 
             border-radius: 10px; 
-            display: block;
             margin-bottom: 20px;
         }
-        .counter-container {
-            padding: 15px;
+        .counter-section {
             border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 10px;
         }
-        .counter-label {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        /* Stil za brojač */
-        .hits-badge {
-            display: inline-block;
-            transition: transform 0.3s;
-        }
-        .hits-badge:hover { transform: scale(1.05); }
+        p { color: #666; font-size: 14px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="QR Slika" class="main-img">
+    <div class="container">
+        <img src="https://i.pinimg.com/564x/e4/5f/3c/e45f3cf020eafe0e47b166edf8860de7.jpg" alt="QR Sadržaj" class="glavna-slika">
 
-        <div class="counter-container">
-            <div class="counter-label">Ukupno skeniranja / pregleda</div>
+        <div class="counter-section">
+            <p>BROJ LJUDI KOJI SU POGLEDALI OVU SLIKU:</p>
             
-            <div class="hits-badge">
-                <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fmoj-jedinstveni-qr-brojac-2024&count_bg=%232ECC71&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=PREGLEDA&edge_flat=false" alt="Brojač posjeta">
-            </div>
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fmoj-qr-projekt-2026&count_bg=%23007BFF&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=PREGLEDA&edge_flat=false" alt="Brojač">
         </div>
     </div>
 
